@@ -9,14 +9,15 @@
       </div>
       <div class="table-container" style="width:960px">
         <el-table v-loading="listLoading"
+                  ref="userTable"
                   :data="list"
                   border>
           <el-table-column
             prop="userID"
             label="UserID"
-            width="150">
+            width="200">
             <template slot-scope="scope">
-              {{scope.row.userid}}
+              {{scope.row.id}}
             </template>
           </el-table-column>
           <el-table-column
@@ -24,7 +25,7 @@
             label="StaffID"
             width="150">
             <template slot-scope="scope">
-              {{scope.row.staffid}}
+              {{scope.row.employee_id}}
             </template>
           </el-table-column>
             <el-table-column
@@ -39,15 +40,39 @@
             prop="state"
             label="State"
             width="150">
-              <template>
+              <template slot-scope="scope">
                 {{scope.row.state}}
               </template>
             </el-table-column>
           <el-table-column
+              prop="registration"
+              label="Registration"
+              width="150">
+              <template slot-scope="scope">
+                {{scope.row.registration}}
+              </template>
+          </el-table-column>
+          <el-table-column
             prop="operation"
             label="Operation">
+            <template slot-scope="scope">
+              <el-button size="mini" type="text">Modify</el-button>
+              <el-button size="mini" type="text">Delete</el-button>
+            </template>
           </el-table-column>
         </el-table>
+      </div>
+      <div class="pagination-container" style="margin-left:350px">
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          layout="total,sizes,prev,pager,next,jumper"
+          :page-size="listQuery.pageSize"
+          :page-sizes="[5,10,15]"
+          :current-page.sync="listQuery.page"
+          :total="total">
+        </el-pagination>
       </div>
     </div>
 </template>
@@ -59,10 +84,14 @@
       data(){
           return{
             listQuery:{
-              keyword:null
+              keyword:null,
+              page:1,
+              pageSize:10
+
             },
-            list:null,
-            listLoading:true
+            list:[],
+            listLoading:true,
+            total:null
           }
       },
       created(){
@@ -71,11 +100,26 @@
       methods:{
           fetchData(){
             this.listLoading=true
-            getuserList().then(response=>{
-              this.list=response.data.items
+            getuserList(this.listQuery).then(response=>{
+              this.list=response.data.data.items
+              this.total=response.data.data.count
               this.listLoading=false
+              console.log(response.data.data.items)
             })
-          }
+          },
+        handleSizeChange(val) {
+          this.listQuery.page = 1;
+          this.listQuery.pageSize = val;
+          this.fetchData();
+        },
+        handleCurrentChange(val) {
+          this.listQuery.page = val;
+          this.fetchData();
+        },
+        Search(){
+            this.listQuery.page=1;
+            this.fetchData()
+        }
       }
     }
 </script>

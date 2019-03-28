@@ -10,7 +10,7 @@ const service = axios.create({
 })
 
 // request拦截器
-service.interceptors.request.use(config => {
+/*service.interceptors.request.use(config => {
   if (store.getters.token) {
     config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
@@ -19,15 +19,15 @@ service.interceptors.request.use(config => {
   // Do something with request error
   console.log(error) // for debug
   Promise.reject(error)
-})
+})*/
 
 // respone拦截器
-service.interceptors.response.use(
+/*service.interceptors.response.use(
   response => {
     /**
      * code为非200是抛错 可结合自己业务进行修改
      */
-    const res = response.data
+    /*const res = response.data
     if (res.code !== 200) {
       Message({
         message: res.message,
@@ -61,6 +61,6 @@ service.interceptors.response.use(
     })
     return Promise.reject(error)
   }
-)
+)*/
 
 export default service
