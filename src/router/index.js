@@ -60,6 +60,7 @@ export const constantRouterMap = [
     children:[{
       path: 'controlist',
       name:'controlist',
+      component:()=>import('@/views/Control/controlist'),
       meta:{'title':'权限列表'},
     },
       {
