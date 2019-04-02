@@ -64,6 +64,13 @@ export const constantRouterMap = [
       meta:{'title':'权限列表'},
     },
       {
+        path:'updateControl',
+        name:'updateControl',
+        component:()=>import('@/views/Control/update'),
+        meta:{'title':'更新权限'},
+        hidden:true
+      },
+      {
        path:'getrolelist',
         name:'getrolelist',
         meta:{'title':'个人权限'},

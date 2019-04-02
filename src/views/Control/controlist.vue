@@ -14,7 +14,7 @@
           label="Permission code"
           width="200">
           <template slot-scope="scope">
-            {{scope.row.id}}
+            <el-button type="text" size="small" @click="updateControl(scope.$index,scope.row)"> {{scope.row.id}}</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -25,7 +25,7 @@
             {{scope.row.name}}
           </template>
         </el-table-column>
-        <el-table-column
+        <el-table-column :show-overflow-tooltip="true"
           prop="description"
           label="Description"
           width="150">
@@ -69,7 +69,7 @@
     </div>
     <div class="pagination-container" style="margin-left:350px">
       <el-pagination
-        background
+        border
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         layout="total,sizes,prev,pager,next,jumper"
@@ -85,44 +85,49 @@
 <script>
   import {getControlList} from '@/api/control'
     export default {
-        name: "controlist",
-      data(){
-          return {
-            list:null,
-            total:null,
-            listLoading:true,
-            listQuery: {
-              page:1,
-              pageSize:10
-            }
+      name: "controlist",
+      data() {
+        return {
+          list: null,
+          total: null,
+          listLoading: true,
+          listQuery: {
+            page: 1,
+            pageSize: 10
           }
+        }
       },
-      created(){
-          this.getList()
-    },
-      methods:{
-          getList(){
-            this.listLoading=true
-            getControlList(this.listQuery).then(response=>{
-              this.list=response.data.data.items
-              this.total=response.data.data.count
-              this.listLoading=false
-            })
-          }
+      created() {
+        this.getList()
+      },
+      methods: {
+        getList() {
+          this.listLoading = true
+          getControlList(this.listQuery).then(response => {
+            this.list = response.data.data.items
+            this.total = response.data.data.count
+            this.listLoading = false
+          })
         },
-      handleSizeChange(val) {
-        this.listQuery.page = 1;
-        this.listQuery.pageSize = val;
-        this.getList();
-      },
-      handleCurrentChange(val) {
-        this.listQuery.page = val;
-        this.getList();
-      },
+        handleSizeChange(val) {
+          this.listQuery.page = 1;
+          this.listQuery.pageSize = val;
+          this.getList();
+        },
+        handleCurrentChange(val) {
+          this.listQuery.page = val;
+          this.getList();
+        },
+        updateControl(index,row){
+          this.router.push({path:'/Control/updateControl'})
+        }
+      }
     }
 
 </script>
 
 <style scoped>
-
+.el-table{
+  text-align: center!important;
+}
 </style>
