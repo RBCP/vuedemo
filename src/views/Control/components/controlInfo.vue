@@ -1,110 +1,91 @@
 <template>
-  <el-card class="form-container" shadow="never">
-    <el-steps :active="active" finish-status="success" align-center>
-      <el-step title="填写权限信息"></el-step>
-      <el-step title="填写权限属性"></el-step>
-      <el-step title="填写权限成员"></el-step>
-    </el-steps>
-    <control-info v-show="showStatus[0]"
-                  v-model="controlParam"
-                  :is-edit="isEdit"
-                  @nextStep="nextStep">
-    </control-info>
-    <control-attr
-      v-show="showStatus[1]"
-      v-model="controlParam"
-      :is-edit="isEdit"
-      @nextStep="nextStep"
-      @prevStep="preevStep">
-    </control-attr>
-  </el-card>
+    <div style="margin-top:50px">
+      <el-form :model="value" :rules="rules" ref="controlInfoForm" label-width="120px" style="width:600px" size="small">
+        <el-form-item label="Right Code" prop="id">
+          <el-input v-model="value.id"></el-input>
+        </el-form-item>
+      <el-form-item label="Right Name" prop="name">
+        <el-input v-model="value.name"></el-input>
+      </el-form-item>
+      <el-form-item label="Right Description" prop="description">
+        <el-input
+          :autoSize="true"
+          v-model="value.description"
+          type="textarea"></el-input>
+      </el-form-item>
+      <el-form-item label="Author" prop="author">
+        <el-input v-model="value.author"></el-input>
+      </el-form-item>
+      <el-form-item style="text-align:center">
+        <el-button type="primary" size="medium" @click="handleNext('controlInfoForm')">Next</el-button>
+      </el-form-item>
+      </el-form>
+    </div>
 </template>
 
 <script>
-  import ControlInfo from './controlInfo';
-  import ControlAttr from './controlAttr';
-  import {getControlDetail,updateControl,createControl} from '@/api/control/getControlDetail'
-  const defaultControlParam={
-    id:null,
-    name:'',
-    description:'',
-    dept:'',
-    author:'',
-    locationList:[],
-    rankList:[],
-  }
-  export default {
-    name: "ControlDetail",
-    components:{ControlInfo,ControlAttr},
-    props:{
-      isEdit: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data(){
-      return{
-        active:0,
-        controlParam:Object.assign({},defaultControlParam),
-        showStatus:[true,false],
-      }
-    },
-    created(){
-      if(this.isEdit){
-        getControlDetail(this.$router.query).then(response=>{
-          this.controlParam=response.data.data;
-        });
-      }
-    },
-    methods:{
-      hideAll(){
-        for(let i=0;i<this.showStatus.length;i++){
-          this.showStatus[i]=false;
-        }
-      },
-      prevStep(){
-        if(this.active>0 && this.active<this.showStatus.length){
-          this.active--;
-          this.hideAll();
-          this.showStatus[this.active]=true;
-        }
-      },
-      nextStep(){
-        if(this.active<this.showStatus.length-1){
-          this.active++;
-          this.hideAll();
-          this.showStatus[this.active]=true;
-        }
-      },
-      finishCommit(isEdit){
-        this.$confirm('是否要提交产品','提示',{
-          confirmButtonText:'确定',
-          cancelButtonText:'取消',
-          type:'waring'
-        }).then(()=>{
-          if(isEdit){
-            updateControl(this.$route.query,this.controlParam).then(response=>{
-              this.$message({
-                type:'success',
-                message:'提交成功',
-                duration:1000
-              });
-              this.$router.back();
-            });
-          }else{
-            createControl(this.controlParam).then(response=>{
-              this.$message({
-                type:'success',
-                message:'提交成功',
-                duration:1000
-              });
-              location.reload();
-            })
+  import {getControlDetail} from '@/api/control'
+    export default {
+        name: "controlInfo",
+        props: {
+          value: Object,
+          isEdit: {
+            type: Boolean,
+            default: false
           }
-        })
+        },
+          data(){
+            return{
+              hasEditCreated:false,
+              rules:{
+                name:[
+                  {required:true,message:'请输入权限名',trigger:'blur'}
+                ],
+                description:[
+                  {required:true,message:'请输入权限的描述',trigger:'blur'}
+                ]
+              }
+            };
+          },
+         created(){
+          this.getControlList();
+         },
+      computed:{
+          controlId(){
+            return this.value.id;
+          }
+      },
+      watch:{
+          controlId:function(newValue){
+            if(!this.isEdit) return;
+            if(this.hasEditCreated) return ;
+            if(newValue===undefined||newValue==null||newValue===0) return;
+            this.handleEditCreated();
+          }
+      },
+      methods:{
+          handleEditCreated(){
+
+          },
+        getControlList(){
+
+        },
+        handleNext(formName){
+            this.$refs[formName].validate((valid)=>{
+              if(valid){
+                this.$emit('nextStep');
+              }else{
+                this.$message({
+                  message:'验证失败',
+                  type:'error',
+                  duration:1000
+                });
+                return false;
+              }
+            })
+        }
       }
     }
-  }
 </script>
 
 <style scoped>
