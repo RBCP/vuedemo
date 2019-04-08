@@ -119,7 +119,7 @@
           this.getList();
         },
         updateControl(index,row){
-          this.router.push({path:'/Control/updateControl'})
+          this.$router.push({path:'/Control/updateControl',query:{id:row.id}})
         }
       }
     }

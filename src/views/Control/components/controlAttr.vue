@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item style="text-align:center">
         <el-button size="medium" @click="handlePrev">上一步，填写权限信息</el-button>
-        <el-button type="primary" size="medium" @click="handleNext('controlInfoForm')">下一步</el-button>
+        <el-button type="primary" size="medium" @click="handleNext">下一步</el-button>
       </el-form-item>
   </el-form>
 </div>
@@ -92,7 +92,7 @@
           },
           set:function(newValue){
             this.value.rankList=[];
-            for(let i=0;i<newValue;i++){
+            for(let i=0;i<newValue.length;i++){
               this.value.rankList.push({rankID:newValue[i]});
             }
           }
@@ -127,19 +127,8 @@
         handlePrev(){
             this.$emit('prevStep')
         },
-        handleNext(formName){
-          this.$refs[formName].validate((valid)=>{
-            if(valid){
-              this.$emit('nextStep');
-            }else{
-              this.$message({
-                message:'验证失败',
-                type:'error',
-                duration:1000
-              });
-              return false;
-            }
-          })
+        handleNext() {
+          this.$emit('nextStep');
         }
       }
     }

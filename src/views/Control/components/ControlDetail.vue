@@ -1,38 +1,38 @@
 <template>
-    <el-card class="form-container" shadow="never">
-      <el-steps :active="active" finish-status="success" align-center>
-        <el-step title="填写权限信息"></el-step>
-        <el-step title="填写权限属性"></el-step>
-        <el-step title="填写权限成员"></el-step>
-        <el-step title="填写权限排除成员"></el-step>
-      </el-steps>
-      <control-info v-show="showStatus[0]"
-      v-model="controlParam"
-      :is-edit="isEdit"
-      @nextStep="nextStep">
-      </control-info>
-      <control-attr
+  <el-card class="form-container" shadow="never">
+    <el-steps :active="active" finish-status="success" align-center>
+      <el-step title="填写权限信息"></el-step>
+      <el-step title="填写权限属性"></el-step>
+      <el-step title="填写权限成员"></el-step>
+      <el-step title="填写权限排除人员"></el-step>
+    </el-steps>
+    <control-info v-show="showStatus[0]"
+                  v-model="controlParam"
+                  :is-edit="isEdit"
+                  @nextStep="nextStep">
+    </control-info>
+    <control-attr
       v-show="showStatus[1]"
       v-model="controlParam"
       :is-edit="isEdit"
       @nextStep="nextStep"
       @prevStep="prevStep">
-      </control-attr>
-      <control-user
-        v-show="showStatus[2]"
-        v-model="controlParam"
-        :is-edit="isEdit"
-        @nextStep="nextStep"
-        @prevStep="prevStep">
-      </control-user>
-      <control-except
-        v-show="showStatus[3]"
-        v-model="controlParam"
-        :is-edit="isEdit"
-        @nextStep="nextStep"
-        @finishCommit="finishCommit">
-      </control-except>
-    </el-card>
+    </control-attr>
+    <control-user
+      v-show="showStatus[2]"
+      :is-edit="isEdit"
+      v-model="controlParam"
+      @nextStep="nextStep"
+      @prevStep="prevStep">
+    </control-user>
+    <control-except
+      v-show="showStatus[3]"
+      :is-edit="isEdit"
+      v-model="controlParam"
+      @prevStep="prevStep"
+      @finshCommit="finishCommit">
+    </control-except>
+  </el-card>
 </template>
 
 <script>
@@ -125,7 +125,6 @@ const defaultControlParam={
       }
     }
 </script>
-
 <style scoped>
 
 </style>

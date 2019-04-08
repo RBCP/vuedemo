@@ -27,13 +27,13 @@ export function createControl(data){
     data:data
   })
 }
-export function fetchListAll(){
+export function fetchLocation(){
   return request({
     url:'/location/listAll',
     method:'get'
   })
 }
-export function fetchList(){
+export function fetchRank(){
   return request({
     url:'/rank/listAll',
     method:'get'

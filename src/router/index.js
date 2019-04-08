@@ -71,6 +71,12 @@ export const constantRouterMap = [
         hidden:true
       },
       {
+        path:'createControl',
+        name:'createControl',
+        component:()=>import('@/views/Control/createControl'),
+        meta:{'title':'创建新权限'}
+      },
+      {
        path:'getrolelist',
         name:'getrolelist',
         meta:{'title':'个人权限'},
