@@ -39,3 +39,25 @@ export function fetchRank(){
     method:'get'
   })
 }
+export function getroleList(params){
+  return request({
+    url:'/control/getroleList',
+    method:'get',
+    params:params
+  })
+}
+export function addPermission(data){
+  return request({
+    url:'/control/addPermission',
+    method:'post',
+    data:data
+  })
+}
+export function getManualList(params){
+  return request({
+    url:'/control/getManulList',
+    method:'get',
+    params:params
+  })
+}
+
