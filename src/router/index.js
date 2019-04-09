@@ -43,10 +43,31 @@ export const constantRouterMap = [
         component:()=>import('@/views/user/UserList/index'),
         meta:{title:'用户管理'}
       },
+    ]
+  },
+  {
+    path:'/Group',
+    component:Layout,
+    redirect:'/GroupManager',
+    meta:{'title':'群组管理'},
+    children:[
       {
         path:'groupList',
         name:'groupList',
-        meta:{title:'群组管理'}
+        component:()=>import('@/views/Group/groupList'),
+        meta:{'title':'群聊列表'}
+      },
+      {
+        path:'createRoom',
+        name:'createRoom',
+        component:()=>import('@/views/Group/CreateRoom'),
+        meta:{'title':'新建群组'}
+      },
+      {
+        path:'Participants',
+        name:'Participants',
+        component:()=>import('@/views/Group/Participants'),
+        meta:{'title':'群成员'}
       }
     ]
   },
@@ -96,11 +117,13 @@ export const constantRouterMap = [
     children:[{
       path:'single_chat_log',
       name:'single_chat_log',
+      component:()=>import('@/views/Mesage/SingleChatLog'),
       meta:{'title':'单聊记录'},
     },
       {
         path:'group_chat_log',
         name:'group_chat_log',
+        component:()=>import('@/views/Mesage/GroupChatLog'),
         meta:{'title':'群聊记录'},
       }
     ]

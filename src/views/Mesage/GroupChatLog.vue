@@ -5,6 +5,7 @@
         <el-form-item label="群组ID" prop="GroupID">
           <el-input style="width:203px" v-model="listQuery.GroupID" placeholder="请输入房间ID"></el-input>
         </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="handleMessage('GroupchatForm')">搜索</el-button>
         </el-form-item>
       </el-form>
@@ -21,7 +22,7 @@
           </template>
         </el-table-column>
         <el-table-column label="Group Name" width="150">
-          <template slot-scope="scope" >
+          <template slot-scope="scope">
             {{scope.row.GroupName}}
           </template>
         </el-table-column>
@@ -88,7 +89,9 @@
     },
     methods: {
       getList() {
-        console.log(this.routes);
+        console.log(this.$route.query)
+        if(this.$route.query.GroupID)
+          this.listQuery.GroupID=this.$route.query.GroupID
         this.listLoading = false;
         getGroupChatLogs(this.listQuery).then(response => {
           this.list = response.data.data;

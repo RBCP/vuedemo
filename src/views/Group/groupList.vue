@@ -58,7 +58,7 @@
           <template slot-scope="scope">
             <el-button @click.native.prevent="Delete(scope.$index,scope.row)" type="text" size="small">Delete</el-button>
             <el-button @click.native.prevent="showChatLog(scope.$index,scope.row)" type="text" size="small">Detail</el-button>
-            <el-button @click.native.prevent="ShowMember(scope.$index,scope.row)" type="text" size="small">Participants</el-button>
+            <el-button @click.native.prevent="ShowMembers(scope.$index,scope.row)" type="text" size="small">Participants</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -106,18 +106,21 @@
                 this.listLoading=false
               }).catch(()=>{
                 console.log("请求失败")
-                listLoading=false
+                this.listLoading=false
               })
             },
         /*SearchRoom(){
           this.$router.push({'/Chat_log/group_chat_log',query:{GroupID:row}})
         },*/
         AddRoom(){
-          this.$router.push({path:'/Groups/CreateGroup'})
+          this.$router.push({path:'/Group/CreateGroup'})
         },
        showChatLog(index,row){
         this.$router.push({path:'/Chat_log/group_Chat_log',query:{'GroupID':row.id}});
        },
+        ShowMembers(index,row){
+          this.$router.push({path:'/Group/Participants',query:{'GroupID':row.id}});
+        },
         handleSizeChange(val) {
           this.listquery.page = 1;
           this.listquery.pageSize = val;

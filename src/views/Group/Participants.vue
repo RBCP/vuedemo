@@ -1,8 +1,8 @@
 <template>
-    <div class="app=container">
+    <div class="app-container">
       <div style="margin-top:15px">
-        <el-form :inline="true" ref="listQuery" :model="listQuery" label-width="200px">
-         <el-input style="width:100px" v-model="listQuery.keyword" placeholder="Group ID"></el-input>
+        <el-form :inline="true" ref="listQuery" :model="listQuery" label-width="250px">
+         <el-input style="width:200px" v-model="listQuery.keyword" placeholder="Group ID"></el-input>
           <el-button type="primary" @click="Search()">Search</el-button>
         </el-form>
       </div>
@@ -67,6 +67,10 @@
       methods:{
           getList(){
             this.listLoading=false
+            console.log(this.$route)
+            if(this.$route.query.GroupID){
+              this.listQuery.keyword=this.$route.query.GroupID;
+           }
             getMembers(this.listQuery).then(response=>{
               this.list=response.data.data.items;
               this.total=response.data.data.count;
